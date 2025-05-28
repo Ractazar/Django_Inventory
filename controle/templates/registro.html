@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/form_styles.css'%}?{{ timestamp }}">
+</head>
+<body>
+    <h1>Novo Usuário</h1>
+    <div class="center-container">
+    <form method="POST" enctype="multipart/form-data" onsubmit="return validateFile()">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <span id="error-message" style="color: red; display: none;">O arquivo deve ser um PDF.</span>
+        <button type="submit">Registrar</button>
+    </form>
+    <p>Já tem uma conta? <a href="{% url 'login' %}">Faça login aqui</a></p>
+    </div>
+
+    <script>
+    function validateFile() {
+        const fileInput = document.querySelector("input[name='documento']");
+        const errorMessage = document.getElementById("error-message");
+
+        // No file selected
+        if (fileInput.files.length === 0) {
+            errorMessage.textContent = "Selecione um arquivo.";
+            errorMessage.style.display = "block";
+            return false; // Prevent form submission
+        }
+
+        // Check if the file is a PDF
+        const fileName = fileInput.files[0].name.toLowerCase();
+        if (!fileName.endsWith(".pdf")) {
+            errorMessage.textContent = "O arquivo deve ser um PDF.";
+            errorMessage.style.display = "block";
+            return false; // Prevent form submission
+        }
+
+        errorMessage.style.display = "none";
+        return true; // Allow form submission
+    }
+    </script>
+</body>
+</html>

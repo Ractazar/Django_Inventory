@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Office Table</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/form_styles.css' %}?{{ timestamp }}">
+</head>
+
+<body>
+    <h2>Termos e Condições</h2>
+
+    <div class="center-container">
+    <!-- Display PDF inline -->
+    <iframe src="{% url 'termos_pdf' %}" title="Termos e condições" width="100%" height="500px"></iframe>
+
+    <!-- Download button -->
+    <p>
+        <a href="{% url 'termos_download' %}" class="btn btn-primary">Baixar PDF</a>
+    </p>
+    <br>
+    <p>
+        <a href="{% url 'mostrar_notebooks' %}">Notebooks</a>
+        <a href="{% url 'mostrar_smartphones' %}">Smartphones</a>
+    </p>
+
+    <!-- Upload form -->
+    <form id="upload-form" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <label for="id_documento">Upload do documento assinado:</label>
+        <input type="file" name="documento" id="id_documento">
+        <br><br>
+        <button type="submit" class="btn btn-success">Enviar documento assinado</button>
+        <p id="no-file-message" style="color:red; display:none;">Selecione um arquivo antes de enviar.</p>
+    </form>
+
+    {% if upload_success %}
+        <p id="upload-success-message" style="color:green;">Documento enviado com sucesso!</p>
+    {% endif %}
+
+    <script>
+    if (performance.navigation.type === 1) { // 1 means reload
+        var msg = document.getElementById('upload-success-message');
+        if (msg) msg.style.display = 'none';
+    }
+    document.getElementById('upload-form').addEventListener('submit', function(e) {
+        var fileInput = document.getElementById('id_documento');
+        var message = document.getElementById('no-file-message');
+        var message2 = document.getElementById('upload-success-message');
+        if (!fileInput.value) {
+            e.preventDefault();
+            message.style.display = 'block';
+            message2.style.display = 'none';
+        } else {
+            message.style.display = 'none';
+            message2.style.display = 'block';
+        }
+    });
+    </script>
+</body>
+</html>

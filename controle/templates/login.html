@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tela de Login</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/login.css'%}?{{ timestamp }}">
+</head>
+<body>
+    <h1>Login</h1>
+    <div class="center-container">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-fields">
+                {{ form.as_p }}
+            </div>
+            <button type="submit">Login</button>
+        </form>
+
+        {% if error_message %}
+            <p style="color: red;">{{ error_message }}</p>
+        {% endif %}
+
+        <p>Não tem uma conta? <a href="{% url 'registro' %}">Registre-se aqui</a></p>
+    </div>
+</body>
+</html>

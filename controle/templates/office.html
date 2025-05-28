@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Office Table</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/form_styles.css' %}?{{ timestamp }}">
+</head>
+<body>
+    <h1>Office Table</h1>
+    <table border="1">
+        <tr>
+            <th>Email</th>
+            <th>Senha</th>
+            <th>Versão</th>
+            <th>Data de Renovação</th>
+            <th>Status</th>
+        </tr>
+        {% for entry in office_entries %}
+        <tr>
+            <td>{{ entry.email }}</td>
+            <td>
+            <input type="password" value="{{ entry.senha }}" id="senha-{{ forloop.counter }}" readonly style="border:none; background:transparent;">
+            <button type="button" onclick="toggleSenha('{{ forloop.counter }}')">Mostrar</button>
+            </td>
+            <td>{{ entry.versao }}</td>
+            <td>{{ entry.data_renovacao }}</td>
+            <td>{{ entry.status }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Adicionar Nova Entrada</h2>
+    <div class="center-container">
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Adicionar</button>
+    </form>
+    <p>
+        <a href="{% url 'mostrar_notebooks' %}">Notebooks</a>
+        <a href="{% url 'mostrar_smartphones' %}">Smartphones</a>
+        <a href="{% url 'logout' %}" class = "logout">Logout</a>
+    </p>
+    </div>
+        <script>
+        function toggleSenha(idx) {
+            const input = document.getElementById('senha-' + idx);
+            if (input.type === "password") {
+                input.type = "text";
+            } else {
+                input.type = "password";
+            }
+        }
+    </script>
+</body>
+</html>

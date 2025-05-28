@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabela de Smartphones</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/tables_styles.css' %}">
+</head>
+<body>
+    <h1 class="container">Smarthpones</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>
+                    Marca
+                    <select id="filter-marca" onchange="filterTable()">
+                        <option value="">Todos</option>
+                        {% for marca in unique_marca %}
+                        <option value="{{ marca }}">{{ marca }}</option>
+                        {% endfor %}
+                    </select>
+                </th>
+                <th>
+                    Modelo
+                    <select id="filter-modelo" onchange="filterTable()">
+                        <option value="">Todos</option>
+                        {% for modelo in unique_modelo %}
+                        <option value="{{ modelo }}">{{ modelo }}</option>
+                        {% endfor %}
+                    </select>
+                </th>
+                <th>
+                    Número Serie
+                    <select id="filter-numero-serie" onchange="filterTable()">
+                        <option value="">Todos</option>
+                        {% for numero_serie in unique_numero_serie %}
+                        <option value="{{ numero_serie }}">{{ numero_serie }}</option>
+                        {% endfor %}
+                    </select>
+                </th>
+                <th>
+                    Número Chip
+                    <select id="filter-numero-chip" onchange="filterTable()">
+                        <option value="">Todos</option>
+                        {% for numero_chip in unique_numero_chip %}
+                        <option value="{{ numero_chip }}">{{ numero_chip }}</option>
+                        {% endfor %}
+                    </select>
+                </th>
+                <th>
+                    Imei 1
+                    <select id="filter-imei-1" onchange="filterTable()">
+                        <option value="">Todos</option>
+                        {% for imei_1 in unique_imei_1 %}
+                        <option value="{{ imei_1 }}">{{ imei_1 }}</option>
+                        {% endfor %}
+                    </select>
+                </th>
+                <th>
+                    Imei 2
+                    <select id="filter-imei-2" onchange="filterTable()">
+                        <option value="">Todos</option>
+                        {% for imei_2 in unique_imei_2 %}
+                        <option value="{{ imei_2 }}">{{ imei_2 }}</option>
+                        {% endfor %}
+                    </select>
+                </th>
+                <th>
+                    Status
+                    <select id="filter-status" onchange="filterTable()">
+                        <option value="">Todos</option>
+                        {% for status in unique_status %}
+                        <option value="{{ status }}">{{ status }}</option>
+                        {% endfor %}
+                    </select>
+                </th>
+                <th>
+                    Capa Protetora
+                    <select id="filter-capa-protetora" onchange="filterTable()">
+                        <option value="">Todos</option>
+                        {% for capa_protetora in unique_capa_protetora %}
+                        <option value="{{ capa_protetora }}">{{ capa_protetora }}</option>
+                        {% endfor %}
+                    </select>
+                </th>
+                <th>
+                    Carregador
+                    <select id="filter-carregador" onchange="filterTable()">
+                        <option value="">Todos</option>
+                        {% for carregador in unique_carregador %}
+                        <option value="{{ carregador }}">{{ carregador }}</option>
+                        {% endfor %}
+                    </select>
+                </th>
+                <th>
+                    Criado Por
+                    <select id="filter-criado-por" onchange="filterTable()">
+                        <option value="">Todos</option>
+                        {% for criado_por in unique_criado_por %}
+                        <option value="{{ criado_por }}">{{ criado_por }}</option>
+                        {% endfor %}
+                    </select>
+                </th>
+                <th>
+                    Modificado Por
+                    <select id="filter-modificado-por" onchange="filterTable()">
+                        <option value="">Todos</option>
+                        {% for modificado_por in unique_modificado_por %}
+                        <option value="{{ modificado_por }}">{{ modificado_por }}</option>
+                        {% endfor %}
+                    </select>
+                </th>
+                <th>
+                    Emprestado
+                    <select id="filter-emprestado" onchange="filterTable()">
+                        <option value="">Todos</option>
+                        {% for emprestado in unique_emprestado %}
+                        <option value="{{ emprestado }}">{{ emprestado }}</option>
+                        {% endfor %}
+                    </select>
+                </th>
+                <th>Último Início Manutenção</th>
+                <th>Último Fim Manutenção</th>
+                <th>Emprestar</th>
+                <th>Deletar</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for smartphone in data %}
+            <tr data-id="{{ smartphone.numero_serie }}">
+                <td contenteditable="true" class="editable" data-column="marca">{{ smartphone.marca }}</td>
+                <td contenteditable="true" class="editable" data-column="modelo">{{ smartphone.modelo }}</td>
+                <td>{{ smartphone.numero_serie }}</td>
+                <td contenteditable="true" class="editable" data-column="numero_chip">{{ smartphone.numero_chip }}</td>
+                <td>{{ smartphone.imei_1 }}</td>
+                <td contenteditable="true" class="editable" data-column="imei_2">{{ smartphone.imei_2 }}</td>
+                <td>
+                    <select class="editable-dropdown" data-column="status">
+                        {% for choice in smartphone.ESCOLHAS_STATUS %}
+                        <option value="{{ choice.0 }}" {% if smartphone.status == choice.0 %}selected{% endif %}>
+                            {{ choice.1 }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </td>
+                <td>
+                    <select class="editable-dropdown" data-column="capa_protetora">
+                        {% for choice in smartphone.POSSUI_PERIFERICO %}
+                        <option value="{{ choice.0 }}" {% if smartphone.capa_protetora == choice.0 %}selected{% endif %}>
+                            {{ choice.1 }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </td>
+                <td>
+                    <select class="editable-dropdown" data-column="carregador">
+                        {% for choice in smartphone.POSSUI_PERIFERICO %}
+                        <option value="{{ choice.0 }}" {% if smartphone.carregador == choice.0 %}selected{% endif %}>
+                            {{ choice.1 }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </td>
+                <td>{{ smartphone.criado_por }}</td>
+                <td>{{ smartphone.modificado_por }}</td>
+                <td>{{ smartphone.emprestado }}</td>
+                <td>{{ smartphone.ultimo_comeco_manutencao }}</td>
+                <td>{{ smartphone.ultimo_final_manutencao }}</td>
+                <td>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <button type="button" onclick="updateEmprestado('{{ smartphone.numero_serie }}')">Emprestar</button>
+                    </form>
+                </td>
+                <td>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <button type="button" onclick="deleteSmartphone('{{ smartphone.numero_serie }}')">Deletar Smartphone</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+<div class="container">
+<a href="{% url 'mostrar_notebooks' %}">Notebooks</a>
+<a href="{% url 'adicionar_smartphone' %}">Cadastrar</a>
+<a href="{% url 'office' %}">Office</a>
+<button type="button" onclick="downloadPDF()">Download PDF</button>
+<a href="{% url 'logout' %}" class = "logout">Logout</a>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+<script>
+    function filterTable() {
+        const filters = {
+            marca: document.getElementById("filter-marca").value.toLowerCase(),
+            modelo: document.getElementById("filter-modelo").value.toLowerCase(),
+            numeroSerie: document.getElementById("filter-numero-serie").value.toLowerCase(),
+            numeroChip: document.getElementById("filter-numero-chip").value.toLowerCase(),
+            imei1: document.getElementById("filter-imei-1").value.toLowerCase(),
+            imei2: document.getElementById("filter-imei-2").value.toLowerCase(),
+            status: document.getElementById("filter-status").value.toLowerCase(),
+            capaProtetora: document.getElementById("filter-capa-protetora").value.toLowerCase(),
+            carregador: document.getElementById("filter-carregador").value.toLowerCase(),
+            criadoPor: document.getElementById("filter-criado-por").value.toLowerCase(),
+            modificadoPor: document.getElementById("filter-modificado-por").value.toLowerCase(),
+            emprestado: document.getElementById("filter-emprestado").value.toLowerCase(),
+        };
+
+        const rows = document.querySelectorAll("tbody tr");
+
+        rows.forEach(row => {
+            const cells = row.children;
+            const matches = (
+                (!filters.marca || cells[0].textContent.toLowerCase().includes(filters.marca)) &&
+                (!filters.modelo || cells[1].textContent.toLowerCase().includes(filters.modelo)) &&
+                (!filters.numeroSerie || cells[2].textContent.toLowerCase().includes(filters.numeroSerie)) &&
+                (!filters.numeroChip || cells[3].textContent.toLowerCase().includes(filters.numeroChip)) &&
+                (!filters.imei1 || cells[4].textContent.toLowerCase().includes(filters.imei1)) &&
+                (!filters.imei2 || cells[5].textContent.toLowerCase().includes(filters.imei2)) &&
+                (!filters.status || cells[6].textContent.toLowerCase().includes(filters.status)) &&
+                (!filters.capaProtetora || cells[7].textContent.toLowerCase().includes(filters.capaProtetora)) &&
+                (!filters.carregador || cells[8].textContent.toLowerCase().includes(filters.carregador)) &&
+                (!filters.criadoPor || cells[9].textContent.toLowerCase().includes(filters.criadoPor)) &&
+                (!filters.modificadoPor || cells[10].textContent.toLowerCase().includes(filters.modificadoPor)) &&
+                (!filters.emprestado || cells[11].textContent.toLowerCase().includes(filters.emprestado))
+            );
+
+            row.style.display = matches ? "" : "none";
+        });
+    }
+
+    function getCsrfToken() {
+        return document.querySelector('[name=csrfmiddlewaretoken]').value;
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+
+        // Handle contenteditable cells
+        document.querySelectorAll(".editable").forEach(cell => {
+            cell.addEventListener("blur", () => updateCell(cell));
+            cell.addEventListener("keypress", (e) => {
+                if (e.key === "Enter") {
+                    e.preventDefault();
+                    cell.blur();
+                }
+            });
+        });
+
+        // Handle dropdown changes
+        document.querySelectorAll(".editable-dropdown[data-column='status']").forEach(dropdown => {
+            dropdown.addEventListener("focus", function() {
+                this.dataset.previousValue = this.value;
+            });
+            dropdown.addEventListener("change", () => updateCell(dropdown));
+        });
+
+        document.querySelectorAll(".editable-dropdown:not([data-column='status'])").forEach(dropdown => {
+            dropdown.addEventListener("change", () => updateCell(dropdown));
+        });
+    });
+
+    function updateCell(element) {
+        const row = element.closest("tr");
+        const id = row.dataset.id;
+        const column = element.dataset.column;
+        const value = element.tagName === "SELECT" ? element.value : element.textContent.trim();
+
+        const data = {
+            id: id,
+            column: column,
+            value: value,
+        };
+
+        // Handle special cases for status changes
+        if (column === "status") {
+            const previousStatus = row.querySelector('[data-column="status"]').dataset.previousValue || ""; // Get the previous value of status
+
+            if (value === "Manutenção") {
+                data.ultimo_comeco_manutencao = new Date().toISOString(); // Update 'ultimo_comeco_manutencao' if status is set to 'Manutenção'
+            } else if (previousStatus === "Manutenção") {
+                data.ultimo_final_manutencao = new Date().toISOString(); // Update 'ultimo_final_manutencao' if status is changed from 'Manutenção'
+            }
+
+            // Update the previous value of status
+            row.querySelector('[data-column="status"]').dataset.previousValue = value;
+        }
+
+        // Add modificado_por field
+        data.modificado_por = "{{ request.user.email }}";
+
+        // Send AJAX request to update the model
+        fetch("{% url 'atualizar_smartphone' %}", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": getCsrfToken(),
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.success) {
+                // Update the table with the new values
+                if (column === "status") {
+                    if (result.ultimo_comeco_manutencao) {
+                        row.querySelector("td:nth-child(13)").textContent = result.ultimo_comeco_manutencao; // Update 'ultimo_comeco_manutencao'
+                    }
+                    if (result.ultimo_final_manutencao) {
+                        row.querySelector("td:nth-child(14)").textContent = result.ultimo_final_manutencao; // Update 'ultimo_final_manutencao'
+                    }
+                }
+
+                // Update modificado_por
+                row.querySelector("td:nth-child(11)").textContent = result.modificado_por;
+            
+            } else if (result.error) {
+                alert(result.error);
+            } else {
+                alert("Erro ao atualizar o valor.");
+            }
+            // Map column names to indices
+            const columnIndices = {
+                marca: 0,
+                modelo: 1,
+                numero_serie: 2,
+                numero_chip: 3,
+                imei_1: 4,
+                imei_2: 5,
+                status: 6,
+                capa_protetora: 7,
+                carregador: 8,
+                criado_por: 9,
+                modificado_por: 10,
+                emprestado: 11
+            };
+
+            refreshFilterForColumn(columnIndices[column]);
+        })
+        .catch(error => {
+            console.error("Erro:", error);
+            alert("Erro ao atualizar o valor.");
+        });
+    };
+
+    function refreshFilterForColumn(colIdx) {
+        // Map column index to filter select ID
+        const filterMap = {
+            0: "filter-marca",
+            1: "filter-modelo",
+            2: "filter-numero-serie",
+            3: "filter-numero-chip",
+            4: "filter-imei-1",
+            5: "filter-imei-2",
+            6: "filter-status",
+            7: "filter-capa-protetora",
+            8: "filter-carregador",
+            9: "filter-criado-por",
+            10: "filter-modificado-por",
+            11: "filter-emprestado"
+        };
+        const dropdownColumns = [6, 7, 8]; // Indices of dropdown columns
+
+        const filterId = filterMap[colIdx];
+        if (!filterId) return;
+        const select = document.getElementById(filterId);
+        if (!select) return;
+
+        // Collect unique values from the table for this column
+        const values = new Set();
+        document.querySelectorAll("tbody tr").forEach(row => {
+            const cell = row.children[colIdx];
+            if (cell) {
+                if (dropdownColumns.includes(Number(colIdx))) {
+                    const dropdown = cell.querySelector("select");
+                    if (dropdown) values.add(dropdown.value);
+                } else {
+                    values.add(cell.textContent.trim());
+                }
+            }
+        });
+        // Save the current filter selection
+        const currentValue = select.value;
+        // Remove all options except the first ("Todos")
+        while (select.options.length > 1) select.remove(1);
+        // Add unique values as options
+        Array.from(values).sort().forEach(val => {
+            if (val !== "") {
+                const option = document.createElement("option");
+                option.value = val;
+                option.textContent = val;
+                select.appendChild(option);
+            }
+        });
+        // Restore the previous selection if possible
+        select.value = currentValue;
+    }
+
+    function updateEmprestado(numeroSerie) {
+    // Get the row corresponding to the smartphone
+    const row = document.querySelector(`tr[data-id='${numeroSerie}']`);
+    if (row) {
+        // Get the 'emprestado' column value
+        const emprestadoCell = row.querySelector("td:nth-child(12)"); // Adjust the index for the 'emprestado' column
+        if (emprestadoCell && emprestadoCell.textContent.trim() === 'Não') {
+            const userEmail = "{{ request.user.email }}"; // Get the logged-in user's email from the template context
+
+            // Send the update request
+            fetch("{% url 'atualizar_emprestado_smartphone' numero_serie='PLACEHOLDER' %}".replace("PLACEHOLDER", numeroSerie), {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": getCsrfToken(),
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ emprestado: userEmail })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Update the 'emprestado' column in the table
+                    emprestadoCell.textContent = userEmail;
+                } else {
+                    alert("Erro ao atualizar o campo 'emprestado'.");
+                }
+            })
+            .catch(error => {
+                console.error("Erro:", error);
+                alert("Erro ao atualizar o campo 'emprestado'.");
+            });
+        } else {
+            alert("Este smartphone já está emprestado.");
+            }
+        }
+    }
+
+    function deleteSmartphone(numeroSerie) {
+        if (confirm("Tem certeza que deseja excluir este smartphone?")) {
+            fetch("{% url 'deletar_smartphone' numero_serie='PLACEHOLDER' %}".replace("PLACEHOLDER", numeroSerie), {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": getCsrfToken(),
+                    "Content-Type": "application/json"
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Remove the row from the table
+                    const row = document.querySelector(`tr[data-id='${numeroSerie}']`);
+                    if (row) {
+                        row.remove();
+                    }
+                } else {
+                    alert("Erro ao excluir o smartphone.");
+                }
+            })
+            .catch(error => {
+                console.error("Erro:", error);
+                alert("Erro ao excluir o smartphone.");
+            });
+        }
+    }
+
+    function downloadPDF() {
+        const { jsPDF } = window.jspdf; // Access the jsPDF object
+        const doc = new jsPDF({
+            orientation: "landscape", // Use landscape orientation to fit more columns
+            unit: "px", // Use pixels for better control
+            format: "a4", // Standard A4 size
+        });
+
+        // Add title to the PDF
+        doc.text("Tabela de Smartphones", 20, 20);
+
+        // Get the table headers (excluding dropdowns and the "Emprestar" and "Deletar" columns)
+        const headers = Array.from(document.querySelectorAll("thead th"))
+            .map(th => th.childNodes[0].textContent.trim())
+            .slice(0, -2); // Exclude the last two columns (Emprestar and Deletar)
+
+        // Get the table rows after filtering
+        const rows = Array.from(document.querySelectorAll("tbody tr"))
+            .filter(row => row.style.display !== "none") // Only include visible rows
+            .map(row =>
+                Array.from(row.querySelectorAll("td"))
+                    .slice(0, -2) // Exclude the last two columns (Emprestar and Deletar)
+                    .map(td => td.textContent.trim())
+            );
+
+        // Use autoTable to add the table to the PDF
+        doc.autoTable({
+            head: [headers], // Add headers
+            body: rows, // Add rows
+            startY: 40, // Start position below the title
+            theme: "grid", // Table theme
+            styles: {
+                fontSize: 10, // Adjust font size to fit more data
+                cellPadding: 5, // Add padding for better readability
+            },
+            headStyles: {
+                fillColor: [22, 160, 133], // Custom header background color
+                textColor: 255, // White text
+                fontStyle: "bold",
+            },
+        });
+
+        // Save the PDF
+        doc.save("tabela_smartphones.pdf");
+    }
+</script>
+</body>
+</html>

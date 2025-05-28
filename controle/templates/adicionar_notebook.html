@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Adicionar Notebook</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/form_styles.css'%}?{{ timestamp }}">
+</head>
+<body>
+    <h1>Adicione um Novo Notebook</h1>
+    <div class="center-container">
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Salvar Notebook</button>
+    </form>
+    <p>
+        <a href="{% url 'mostrar_notebooks' %}">Notebooks</a>
+        <a href="{% url 'logout' %}" class = "logout">Logout</a>
+    </p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Office Table</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/tables_styles.css' %}">
+</head>
+<body>
+    <h1 class="container">Disponibilidade de Hardware</h1>
+    <table>
+        <tr>
+            <th>Status</th>
+            <th>Quantidade Notebooks</th>
+            <th>Quantidade Smartphones</th>
+        </tr>
+        {% for row in status %}
+        <tr>
+            <td>{{ row.0 }}</td>
+            <td>{{ row.1 }}</td>
+            <td>{{ row.2 }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <div class="container">
+        <a href="{% url 'termos' %}">Termos e Condições</a>
+        <a href="{% url 'mostrar_notebooks' %}">Notebooks</a>
+        <a href="{% url 'mostrar_smartphones' %}">Smartphones</a>
+        <a href="{% url 'logout' %}" class = "logout">Logout</a>
+    </div>
+</body>
+</html>
